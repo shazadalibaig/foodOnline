@@ -1,0 +1,13 @@
+{% autoescape off %}
+
+
+Hi {{user.first_name}}
+
+{% if is_approved %}
+Congratulations! Your restaurant got approved
+{% else %}
+We are sorry ! your approval got rejected. For details please contact foodOnline@gmail.com
+{% endif %}
+
+
+{% endautoescape %}
