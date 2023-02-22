@@ -1,6 +1,6 @@
 from django import forms
 from .models import User,UserProfile
-from .validations import allow_only_image_validator
+from .validators import allow_only_image_validator
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput())

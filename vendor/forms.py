@@ -1,6 +1,6 @@
 from django import forms
 from .models import Vendor
-from accounts.validations import allow_only_image_validator
+from accounts.validators import allow_only_image_validator
 
 
 class VendorForm(forms.ModelForm):
