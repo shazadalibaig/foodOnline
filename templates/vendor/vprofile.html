@@ -32,7 +32,7 @@
 																			<div class="drag-list">
 																				<div class="item-thumb">
 																					{% if profile.profile_picture %}
-																					<img class="thumbnail" src="{{profile.profile_picture.url}}" alt="profile_picture">
+																					<img class="thumbnail" src="{{ profile.profile_picture.url }}" alt="profile_picture">
 																					{% else %}
 																					<img class="thumbnail" src="{% static 'images/default-profile.PNG' %}" alt="profile_picture">
 																					{% endif %}
@@ -139,13 +139,13 @@
 														</div>
 														<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 															<div class="field-holder">
-																<label>Lattitude *</label>
+																<label>Lattitude</label>
 																{{profile_form.lattitude}}
 															</div>
 														</div>
 														<div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 															<div class="field-holder">
-																<label>Longitude *</label>
+																<label>Longitude</label>
 																{{profile_form.longitude}}
 															</div>
 														</div>
