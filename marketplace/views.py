@@ -1,11 +1,12 @@
 from django.shortcuts import render,get_object_or_404
 from django.http import HttpResponse,JsonResponse
-from vendor.models import Vendor
+from vendor.models import Vendor,OpeningHour
 from menu.models import Category,FoodItem
 from django.db.models import Prefetch
 from .models import cart
 from marketplace.context_processors import get_cart_count,get_cart_amounts
 from django.contrib.auth.decorators import login_required
+from datetime import date
 
 
 
@@ -24,11 +25,19 @@ def vendor_detail(request,vendor_slug):
             queryset = FoodItem.objects.filter(is_availabe=True)
         )
     )
+    
+    opening_hours = OpeningHour.objects.filter(vendor=vendor).order_by('day','-from_hour')
+    
+    today_date = date.today()
+    today = today_date.isoweekday()
+    
+    current_day_opening_hours = OpeningHour.objects.filter(vendor=vendor,day=today)
+    
     if request.user.is_authenticated:
         cart_items = cart.objects.filter(user=request.user)
     else:
         cart_items = None
-    context = {'vendor':vendor,'categories':categories,'cart_items':cart_items}
+    context = {'vendor':vendor,'categories':categories,'cart_items':cart_items,'opening_hours':opening_hours,'current_day_opening_hours':current_day_opening_hours}
     return render(request,'marketplace/vendor_detail.html',context)
 
 def add_to_cart(request,food_id):
@@ -99,3 +108,12 @@ def delete_cart(request,cart_id):
         else:
             return JsonResponse({'status':'failed','message':'Invalid Request!'})
         
+
+def search(request):
+    keyword = request.GET['keyword']
+    radius = request.GET['radius']
+    
+    vendors = Vendor.objects.filter(vendor_name__icontains=keyword,is_approved=True,user__is_active=True)
+    print(vendors)
+    return render(request,'marketplace/listings.html')
+    
